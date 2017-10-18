@@ -12,7 +12,7 @@ const bodyParser = require('body-parser') // for accessing POST request
 const methodOverride = require('method-override') // for accessing PUT / DELETE
 
 // requiring actual file now
-const Restaurant = require('./models/Restaurant')
+const Restaurant = require('./models/restaurant')
 
 // initiating express, by calling express variable
 const app = express()
