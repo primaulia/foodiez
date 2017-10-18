@@ -1,0 +1,29 @@
+<h2>Homepage</h2>
+
+{{!-- READ --}}
+{{!-- I want to list all my restaurants here how? --}}
+
+{{!-- Loop --}}
+<ul>
+  {{#each restaurants as |resto|}}
+  <li>
+    {{!-- since we have the resto object in a loop, i can get each resto id too  --}}
+    {{!-- once we created this link, we need to prepare the route for that --}}
+    {{ resto.name }}
+    - <a href="/restaurants/{{ resto.id }}">View</a>
+    ||
+    {{!-- since we have the routes for delete now, we can also put the link at the homepage  --}}
+    {{!--
+      but we need to change the parameter here to resto, cos there's no
+      `restaurant` here
+    --}}
+    <form action="/restaurants/{{ resto.id }}?_method=DELETE" method="post">
+      <button type="submit" name="button">Delete</button>
+      {{!-- don't need input fields here, cos we're not updating anything --}}
+    </form>
+  </li>
+  {{/each}}
+</ul>
+
+{{!-- Link to new restaurant form page, NOTICE THE PATH --}}
+<h3><a href="/restaurants/new">New Restaurant</a></h3>

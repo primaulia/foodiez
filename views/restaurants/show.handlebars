@@ -1,0 +1,33 @@
+{{!-- READ --}}
+{{!-- Do I have many restaurants now? --}}
+
+{{!-- only one! so no loop needed --}}
+
+<h2>{{ restaurant.name }} <small>({{ restaurant.cuisine }})</small></h2>
+
+<p>
+  {{ restaurant.address.building }}<br>
+  {{ restaurant.address.street }}, {{ restaurant.address.zipcode }}
+</p>
+
+{{!-- We can also setup a form here to update the existing data --}}
+{{!-- when there's a path, there's a route in your index.js --}}
+{{!-- why PUT, because all update technically MUST go thru PUT request --}}
+<h3>Update</h3>
+<form action="/restaurants/{{ restaurant.id }}?_method=PUT" method="post">
+  <label for="name">Name</label>
+  <input type="text" name="name" value="{{ restaurant.name }}">
+  {{!-- we put the {{}} inside value cos we want to show the existing name --}}
+
+  <label for="cuisine">Cuisine</label>
+  <input type="text" name="cuisine" value="{{ restaurant.cuisine }}">
+
+  <button type="submit" name="button">Submit</button>
+</form>
+
+<h3>Delete</h3>
+{{!-- Same thing, different request type --}}
+<form action="/restaurants/{{ restaurant.id }}?_method=DELETE" method="post">
+  <button type="submit" name="button">Delete</button>
+  {{!-- don't need input fields here, cos we're not updating anything --}}
+</form>
