@@ -12,6 +12,7 @@ const bodyParser = require('body-parser') // for accessing POST request
 const methodOverride = require('method-override') // for accessing PUT / DELETE
 
 // requiring actual file now
+// PITSTOP, look at file inside models folder now
 const Restaurant = require('./models/restaurant')
 
 // initiating express, by calling express variable
@@ -82,7 +83,7 @@ app.get('/restaurants/:id', (req, res) => {
   // instead of find all, we can `findById`
   Restaurant.findById(req.params.id) // no need limit since there's only one
   .then(restaurant => {
- // not restaurants, cos it's single restaurant
+    // not restaurants, cos it's single restaurant
 
     // PITSTOP: look at the views folders here, compare it with the res.render
     // first argument
@@ -100,6 +101,7 @@ app.get('/restaurants/:id', (req, res) => {
 // pseudocode
 // get the value from the form
 // create new object based on that form
+// save to the database
 app.post('/restaurants', (req, res) => {
   var formData = req.body
 
@@ -123,6 +125,7 @@ app.post('/restaurants', (req, res) => {
 // get the updated value from form
 // find restaurant object by id given
 // update with the input from form
+// save to the db
 app.put('/restaurants/:id', (req, res) => {
   // thankfully since we're using mongoose
   // we don't have to find and update separately
@@ -144,7 +147,7 @@ app.put('/restaurants/:id', (req, res) => {
 // pseudocode
 // get the id from the url
 // find restaurant object by id given
-// delete the whole object
+// delete the whole object from the db
 app.delete('/restaurants/:id', (req, res) => {
   // (AGAIN) thankfully since we're using mongoose
   // there's a method in mongoose just for that
