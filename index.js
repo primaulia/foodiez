@@ -1,3 +1,26 @@
+/*
+  changelogs:
+
+  19 Oct
+  - new models => user and review
+  - relationship =>
+    - review.author => user._id
+    - restaurant.owner => user._id
+  - using postman to test routes response
+  - registration flow => POST '/register' with hardcoded: name, email, password
+  - new review flow => POST '/review' with hardcoded: title, description, author( user._id)
+  - get all reviews flow => GET '/reviews' with populated `author`
+  - update on new restaurant flow => POST '/restaurant' with hardcoded `author`
+  - creating `pre-save` hooks for `User` schema
+    - so we can create routes `/profile/:slug`, making it more readable
+      rather than using user._id
+  - creating `pre-save` hooks for `Restaurant` schema
+    - so we can create routes `/restaurants/:slug`, making it more readable
+      rather than using restaurant._id
+    - in a case that the url is not providing a `slug`, fallback to `/restaurants/:id` route  
+*/
+
+
 // setting all global variables (note: why const? cos it won't change)
 // notice that port for mongodb is not really needed
 const dbUrl = 'mongodb://localhost/test'
@@ -64,6 +87,22 @@ app.get('/register', (req, res) => {
   res.send('register form page')
 })
 
+// NEW ROUTE - PROFILE - to show the user profile page
+// pseudocode
+// get the slug
+// find user by the slug
+// render profile page with user details based on the slug
+app.get('/profile/:slug', (req, res) => {
+  // res.send(`this is the profile page for ${req.params.slug}`)
+  // findOne method is from mongoose. google it up
+  User.findOne({
+    slug: req.params.slug
+  })
+  .then((user) => {
+    res.send(user)
+  }) // if i found the user
+})
+
 // NEW ROUTE - POST NEW USER - to handle register form submission
 // psuedocode
 // - read the form data
@@ -72,7 +111,9 @@ app.get('/register', (req, res) => {
 // - redirect to somewhere
 app.post('/register', (req, res) => {
   var newUser = new User({
-    name: 'Prima',
+    name: 'Prima Aulia Gusta',
+    // this name => slug => alex-min
+    // hence, /profile/alex-min
     email: 'prima@ga.co',
     password: 'test123'
   }) // creating empty `User` object
@@ -82,7 +123,7 @@ app.post('/register', (req, res) => {
   // this is very similar to how mongoose.connect
   newUser.save() // save the object that was created
   .then(
-    () => res.send('user is saved'), // success flow
+    user => res.send(`${user}`), // success flow
     err => res.send(err) // error flow
   )
 })
@@ -137,6 +178,32 @@ app.get('/', (req, res) => {
 // note: this route must be before '/restaurants/:id'. WHY?
 app.get('/restaurants/new', (req, res) => {
   res.render('restaurants/new')
+})
+
+// UPDATE 19 OCT
+// PSEUDOCODE
+// - check the url, if the param is 24 in length
+// - run next route
+// - if not
+//  - find by slug
+app.get('/restaurants/:slug', (req, res, next) => {
+  // res.send(`find existing restaurant with slug: ${req.params.slug.length}`)
+  var slug = req.params.slug
+  if (slug.length === 24) {
+    next()
+  } else {
+    // this part here, runs if slug is less than 24
+    // technically this part here, is the same like the part after
+    Restaurant.findOne({
+      slug // remember the es6 object literal
+    })
+    .populate('owner')
+    .then(restaurant => {
+      res.render('restaurants/show', {
+        restaurant
+      })
+    })
+  }
 })
 
 // READ ONE

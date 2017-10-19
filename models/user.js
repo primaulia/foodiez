@@ -7,7 +7,18 @@ const userSchema = new Schema({
   name: String,
   email: String,
   password: String,
-  slug: String
+  slug: String // new field for vanity url
+})
+
+// UPDATE 19 Oct, created pre-save hook for slug name
+// http://mongoosejs.com/docs/middleware.html
+userSchema.pre('save', function(next) {
+  var user = this
+  // logic to create slug
+  user.slug = user.name.toLowerCase().split(' ').join('-')
+
+  console.log('pre save flow', user)
+  next()
 })
 
 // active the blueprint
@@ -15,7 +26,6 @@ const userSchema = new Schema({
 const User = mongoose.model('User', userSchema)
 // look for users collection in mDb
 // we can name the object differently as to the DB registry
-
 
 // need to export this
 module.exports = User
