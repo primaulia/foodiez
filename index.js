@@ -14,6 +14,7 @@ const methodOverride = require('method-override') // for accessing PUT / DELETE
 // requiring actual file now
 // PITSTOP, look at file inside models folder now
 const Restaurant = require('./models/restaurant')
+const User = require('./models/user')
 
 // initiating express, by calling express variable
 const app = express()
@@ -52,6 +53,37 @@ mongoose.connect(dbUrl, {
 // ROUTE sections
 // note: remember all the model file we created on models/restaurant.js,
 // we'll use it again
+
+// 19 OCT
+// NOW I'M ABLE TO CREATE NEW USER, BUT WE NEED TO REQUIRE
+// THE MODEL FILE FIRST
+
+// NEW ROUTE - REGISTER - to show the new user form
+app.get('/register', (req, res) => {
+  res.send('register form page')
+})
+
+// NEW ROUTE - POST NEW USER - to handle register form submission
+// psuedocode
+// - read the form data
+// - create new user object
+// - use mongoose to create those document in the db
+// - redirect to somewhere
+app.post('/register', (req, res) => {
+  var newUser = new User({
+    name: 'Shumin',
+    email: 'shumin@ga.co',
+    password: 'test123'
+  }) // creating empty `User` object
+
+  newUser.save() // save the object that was created
+  .then( () => res.send('user is saved'))
+  .catch( err => res.send(err) )
+
+  // if we can run then(), the user has been saved
+
+  // res.send(newUser)
+})
 
 // READ ALL
 app.get('/', (req, res) => {
