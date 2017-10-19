@@ -142,12 +142,17 @@ app.get('/restaurants/new', (req, res) => {
 // READ ONE
 app.get('/restaurants/:id', (req, res) => {
   // instead of find all, we can `findById`
-  Restaurant.findById(req.params.id) // no need limit since there's only one
+  Restaurant
+  .findById(req.params.id) // no need limit since there's only one
+  .populate('owner')
+  // .populate(<field name>)
   .then(restaurant => {
     // not restaurants, cos it's single restaurant
 
     // PITSTOP: look at the views folders here, compare it with the res.render
     // first argument
+
+    // res.send(restaurant)
 
     res.render('restaurants/show', {
       restaurant
@@ -172,12 +177,22 @@ app.post('/restaurants', (req, res) => {
   newRestaurant.name = formData.name
   newRestaurant.cuisine = formData.cuisine
 
+  // new field for `owner`
+  newRestaurant.owner = '59e81ae9c90d27819c166d67'
+
   // when save function is done
   // the newRestaurant will have an id, hence we can go straight to the
   // newly created restaurant page
+
+  // res.send(newRestaurant)
+  // use `res.send` to test the output of anything
+
   newRestaurant.save()
-  .then(() => res.redirect(`/restaurants/${newRestaurant.id}`))
-  .catch(err => console.log(err))
+  // UPDATE. 19 Oct
+  .then(
+    () => res.redirect(`/restaurants/${newRestaurant.id}`),
+    err => res.send(err)
+  ) // why? mongoose save(), doesn't have .catch()
 })
 
 // UPDATE ONE

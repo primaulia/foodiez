@@ -6,7 +6,8 @@ const Schema = mongoose.Schema // constructor for all schema
 const userSchema = new Schema({
   name: String,
   email: String,
-  password: String
+  password: String,
+  slug: String
 })
 
 // active the blueprint

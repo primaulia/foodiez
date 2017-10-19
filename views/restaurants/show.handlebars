@@ -5,6 +5,9 @@
 
 <h2>{{ restaurant.name }} <small>({{ restaurant.cuisine }})</small></h2>
 
+{{!-- UPDATE 19 Oct: after populating the owner data --}}
+<h3>Owned by: {{ restaurant.owner.name }} ({{ restaurant.owner.email }})</h3>
+
 <p>
   {{ restaurant.address.building }}<br>
   {{ restaurant.address.street }}, {{ restaurant.address.zipcode }}
