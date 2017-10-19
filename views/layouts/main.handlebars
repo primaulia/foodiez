@@ -7,6 +7,22 @@
   <body>
     {{!-- Remember that anything written here, will be displayed for all pages --}}
     <h1><a href="/">Foodiez</a></h1>
+
+    {{!-- UPDATES BEFORE CLASS 20 OCT --}}
+    <nav>
+      <ul>
+        <li><a href="/reviews">Reviews</a></li>
+        <li><a href="/restaurants/new">New Restaurant</a></li>
+
+        {{!-- TODO: Show this <li> if user has logged in --}}
+        <li>Profile</li>
+
+        {{!-- TODO: Show this <li> if user has NOT logged in --}}
+        <li>Register</li>
+        <li>Login</li>
+      </ul>
+    </nav>
+
     {{{ body }}}
   </body>
 </html>

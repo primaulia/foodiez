@@ -17,7 +17,7 @@
   - creating `pre-save` hooks for `Restaurant` schema
     - so we can create routes `/restaurants/:slug`, making it more readable
       rather than using restaurant._id
-    - in a case that the url is not providing a `slug`, fallback to `/restaurants/:id` route  
+    - in a case that the url is not providing a `slug`, fallback to `/restaurants/:id` route
 */
 
 
@@ -84,7 +84,7 @@ mongoose.connect(dbUrl, {
 
 // NEW ROUTE - REGISTER - to show the new user form
 app.get('/register', (req, res) => {
-  res.send('register form page')
+  res.render('users/register')
 })
 
 // NEW ROUTE - PROFILE - to show the user profile page
@@ -99,7 +99,11 @@ app.get('/profile/:slug', (req, res) => {
     slug: req.params.slug
   })
   .then((user) => {
-    res.send(user)
+    // UPDATE BEFORE CLASS 20 Oct
+    // render a new page with the user data found from the db
+    res.render('users/show', {
+      user
+    })
   }) // if i found the user
 })
 
@@ -110,20 +114,23 @@ app.get('/profile/:slug', (req, res) => {
 // - use mongoose to create those document in the db
 // - redirect to somewhere
 app.post('/register', (req, res) => {
+  // UPDATE BEFORE CLASS 20 Oct
+  var formData = req.body
   var newUser = new User({
-    name: 'Prima Aulia Gusta',
+    name: formData.name,
     // this name => slug => alex-min
     // hence, /profile/alex-min
-    email: 'prima@ga.co',
-    password: 'test123'
-  }) // creating empty `User` object
+    email: formData.email,
+    password: formData.password // NOTICE, we're going to update this
+  })
 
-  // PITSTOP: UPDATE UPDATE
-  // no .catch() for save
-  // this is very similar to how mongoose.connect
+  // // PITSTOP: UPDATE UPDATE
+  // // no .catch() for save
+  // // this is very similar to how mongoose.connect
   newUser.save() // save the object that was created
   .then(
-    user => res.send(`${user}`), // success flow
+    user => res.redirect(`/profile/${user.slug}`),
+    // success flow, redirect to profile page
     err => res.send(err) // error flow
   )
 })
@@ -139,18 +146,25 @@ app.get('/reviews', (req, res) => {
 })
 
 // CREATE NEW REVIEW
-app.post('/review', (req, res) => {
-  var newReview = new Review({
-    title: 'Another one',
-    description: 'Another another',
-    author: '59e81c0f83674583051f18b1'
-  }) // creating empty `User` object
+app.post('/reviews', (req, res) => {
+  // UPDATE BEFORE 20 OCT => update route to `/reviews` for uniformity sake
+  // similar flow like registration
+  // - take form data
+  // - create new review
 
-  // res.send( newReview )
+  // TODO: link currently logged in User with review form
+  var formData = req.body
+
+  var newReview = new Review({
+    title: formData.title,
+    description: formData.description,
+    author: '59e81c0f83674583051f18b1'
+  }) // creating empty `Review` object
+
   newReview.save() // save the object that was created
   .then(
-    (doc) => res.send(doc),
-    // success flow, will be given `doc` that is saved
+    // success flow, for now is to redirect to all reviews route
+    () => res.redirect('/reviews'),
     err => res.send('error happened')
   )
 })
@@ -199,6 +213,8 @@ app.get('/restaurants/:slug', (req, res, next) => {
     })
     .populate('owner')
     .then(restaurant => {
+      // UPDATE BEFORE CLASS 20 OCT
+      // please take a look at the view file `restaurants/show`
       res.render('restaurants/show', {
         restaurant
       })

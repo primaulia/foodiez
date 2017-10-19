@@ -34,3 +34,23 @@
   <button type="submit" name="button">Delete</button>
   {{!-- don't need input fields here, cos we're not updating anything --}}
 </form>
+
+{{!-- UPDATE BEFORE CLASS 20 OCT --}}
+{{!--
+  Creating a form to write a review for specific restaurant.
+  TODO: the idea is each review is tagged to a restaurant
+--}}
+<h3>Reviews</h3>
+<form action="/reviews" method="post">
+  {{!-- NOTICE!!! --}}
+  {{!-- attribute `for` here relates to the `id` of the field --}}
+  <label for="title">Title</label>
+  <input type="text" id="title" name="title" placeholder="e.g. Llao llao FTW">
+  <br>
+
+  <label for="description">Description</label>
+  <textarea id="description" name="description" rows="8" cols="80"></textarea>
+  <br>
+  
+  <button type="submit" name="button">Submit</button>
+</form>
