@@ -24,7 +24,8 @@ router.post('/register', (req, res) => {
   // TODO: redirect to an actual page
   if (adminData.code !== adminCode)
     // if it's wrong flow, MUST call `return`
-    {
+  {
+    console.log('test')
     return res.send('error page instead')
   }
 
@@ -34,10 +35,14 @@ router.post('/register', (req, res) => {
     password: adminData.password // NOTICE, we're going to update this
   })
 
+  // res.send(newAdmin)
+
   newAdmin.save() // save the object that was created
   .then(
-    admin => res.send('new admin is saved'),
-    err => res.send(err) // error flow
+    admin => res.send(admin)
+  )
+  .catch(
+    err => res.send(err)
   )
 })
 
@@ -70,23 +75,34 @@ router.post('/login', (req, res) => {
       // This is the success flow
       // if you cannot find anything, admin will be given
       // as `null`
-      if(! admin) return res.send('admin not found')
+      if (!admin) {
+        console.log('admin is null')
+        return res.redirect('/admin/login')
+      }
 
       // if you can find by the email
       // we compare the password
-      var comparisonObj = {
-        hash: admin.password,
-        formPassword: adminData.password
-      }
 
-      
+      // pass the comparison flow to the model
+      // we want to run a method called `validate`
+      // this fn name, can be anything
+      // two arguments the given password
 
-      res.send(comparisonObj)
+      // PITSTOP: `validPassword` function here is from `adminSchema`
+      // check admin.js at models folder
+      admin.validPassword(adminData.password, (err, valid) => {
+        // comparison failed here, if err is not null
+        if(! valid) {
+          console.log('comparison failed')
+          return res.redirect('/admin/login')
+        }
+
+        // if output is true, redirect to homepage
+        console.log('comparison success');
+        res.redirect('/')
+      })
     },
-    err => res.send('admin not found')
-  )
-  .catch(
-    err => res.send('not found')
+    err => res.send('error is found')
   )
 })
 
