@@ -1,0 +1,26 @@
+OUR ROUTE PLANS
+
+20 Oct
+app.use('/')
++ /
++ /profile/:slug
+
+app.use('/register')
+GET /
+POST /
+
+app.use('/reviews')
+GET /
+POST /
+
+app.use('/restaurants')
+GET /new
+GET /:slug
+GET /:id
+POST /
+POST /:id
+DELETE /:id
+
+// new routes
+GET /admins/register
+POST /admins/register
