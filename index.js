@@ -48,6 +48,7 @@ const Restaurant = require('./models/restaurant')
 const register_routes = require('./routes/register_routes')
 const review_routes = require('./routes/review_routes')
 const restaurant_routes = require('./routes/restaurant_routes')
+const admin_register_routes = require('./routes/admin_register_routes')
 
 // initiating express, by calling express variable
 const app = express()
@@ -136,9 +137,11 @@ app.get('/profile/:slug', (req, res) => {
 // pass the request for /restaurants
 // to 'restaurant_routes.js'
 
+// NEW ROUTES - admin registration flow
 app.use('/register', register_routes)
 app.use('/reviews', review_routes)
 app.use('/restaurants', restaurant_routes)
+app.use('/admin', admin_register_routes)
 
 // UPDATE 20 October,
 // remove all registration routes in index.js

@@ -1,0 +1,28 @@
+{{!-- Update 20 Oct, new admin registration page --}}
+<h3>Admin Registration</h3>
+
+{{!-- FORM TO CREATE NEW RESTAURANT, NOTICE THERE'S NO ID THERE --}}
+
+{{!-- if i go to /register, it will save new user instead --}}
+<form action="/admin/register" method="post">
+  <label for="name">Name</label>
+  <input type="text" name="admin[name]" placeholder="e.g. John Doe">
+
+  <label for="email">Email</label>
+  {{!-- NOTICE on the attribute type below  --}}
+  <input type="email" name="admin[email]" placeholder="e.g. domain@email.com">
+
+  <label for="password">Password</label>
+  {{!-- NOTICE on the attribute type below  --}}
+  <input type="password" name="admin[password]" placeholder="min. 8 characters">
+
+  {{!--
+    This is to check, if the form data is from a real admin
+    who knows the admin code
+  --}}
+
+  <label for="admin_code">Code</label>
+  <input type="text" name="admin[code]">
+
+  <button type="submit" name="button">Submit</button>
+</form>

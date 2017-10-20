@@ -22,5 +22,6 @@ POST /:id
 DELETE /:id
 
 // new routes
-GET /admins/register
-POST /admins/register
+app.use('/admins)
+GET /register
+POST /register
