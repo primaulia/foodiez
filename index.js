@@ -12,11 +12,9 @@
   - get all reviews flow => GET '/reviews' with populated `author`
   - update on new restaurant flow => POST '/restaurant' with hardcoded `author`
   - creating `pre-save` hooks for `User` schema
-    - so we can create routes `/profile/:slug`, making it more readable
-      rather than using user._id
+    - so we can create routes `/profile/:slug`, making it more readable rather than using user._id
   - creating `pre-save` hooks for `Restaurant` schema
-    - so we can create routes `/restaurants/:slug`, making it more readable
-      rather than using restaurant._id
+    - so we can create routes `/restaurants/:slug`, making it more readable rather than using restaurant._id
     - in a case that the url is not providing a `slug`, fallback to `/restaurants/:id` route
 */
 
