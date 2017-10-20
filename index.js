@@ -131,14 +131,13 @@ app.get('/profile/:slug', (req, res) => {
 
 // pass the request for /register
 // to 'register_routes.js'
-app.use('/register', register_routes)
-
 // pass the request for /reviews
 // to 'review_routes.js'
-app.use('/reviews', review_routes)
-
 // pass the request for /restaurants
 // to 'restaurant_routes.js'
+
+app.use('/register', register_routes)
+app.use('/reviews', review_routes)
 app.use('/restaurants', restaurant_routes)
 
 // UPDATE 20 October,
