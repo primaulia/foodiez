@@ -86,6 +86,7 @@ mongoose.connect(dbUrl, {
 // ROUTE sections
 // note: remember all the model file we created on models/restaurant.js,
 // we'll use it again
+// UPDATE 20 Oct, we don't use the model in this file anymore
 
 // UPDATE 20 Oct
 // Refactoring routes
