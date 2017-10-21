@@ -26,9 +26,17 @@
         {{!-- TODO: Show this <li> if admin has NOT logged in  --}}
         <li><a href="/admin/register">Admin Register</a></li>
         <li><a href="/admin/login">Admin Login</a></li>
+
+        {{!-- UPDATE AFTER 20 OCT --}}
+        <li><a href="/search">Search Restaurant</a></li>
       </ul>
     </nav>
 
     {{{ body }}}
+
+    {{!-- UPDATE 20 Oct, embedding `jQuery` and `frontend.js` --}}
+    {{!-- NOTICE THE LINK TO `frontend.js` --}}
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" charset="utf-8"></script>
+    <script src="/assets/js/frontend.js" charset="utf-8"></script>
   </body>
 </html>

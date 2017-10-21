@@ -20,13 +20,12 @@ router.post('/register', (req, res) => {
   var adminData = req.body.admin
 
   // CHECK if adminData.code === adminCode
-  // redirect to error page
-  // TODO: redirect to an actual page
   if (adminData.code !== adminCode)
-    // if it's wrong flow, MUST call `return`
   {
+    // if it's wrong flow, MUST call `return`
     console.log('test')
-    return res.send('error page instead')
+    // UPDATE AFTER 20 Oct, redirect back to `/admins/register`
+    return res.redirect('/admin/register')
   }
 
   var newAdmin = new Admin({
@@ -34,8 +33,6 @@ router.post('/register', (req, res) => {
     email: adminData.email,
     password: adminData.password // NOTICE, we're going to update this
   })
-
-  // res.send(newAdmin)
 
   newAdmin.save() // save the object that was created
   .then(

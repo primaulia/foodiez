@@ -28,9 +28,19 @@
   - similar to `User` create `pre('save')` hooks for register purposes
   - also added our first *INSTANCE METHOD* that helps us to compare login password
     and hashed password
-
+  - added flow if register failed
+    - checked if register with incorrect `admin registration code` === '42admin'
+    - if incorrect, redirect to `/admin/register`
+  - added flow if login failed
+    - if email not found, redirected to `/admins/login`
+    - if password is incorrect, redirected to `/admins/login`
+  - created a search flow, through `fetch` POST request
+    - new routes '/search' (GET & POST)
+    - new front end js to start the `fetch`
+    - embed jQuery to manipulate the dom
+    - search in real time for currect restaurant in our db
+    - new public folder that hosts our `static` files (unit 1 files)
 */
-
 
 // setting all global variables (note: why const? cos it won't change)
 // notice that port for mongodb is not really needed
@@ -54,7 +64,6 @@ const methodOverride = require('method-override') // for accessing PUT / DELETE
 // cos `/` and `/profile/:slug` need those models
 const User = require('./models/user')
 const Restaurant = require('./models/restaurant')
-
 
 // UPDATE 20 Oct
 // require all my route files
@@ -145,6 +154,29 @@ app.get('/profile/:slug', (req, res) => {
   }) // if i found the user
 })
 
+// NEW ROUTE - SEARCH - for realtime search of our restaurant db
+app.get('/search', (req, res) => {
+  res.render('search')
+})
+
+// PSEUDOCODE
+// - wait for any request with keyword data
+// - if received, performed a find with keyword as a    //   regex patter
+// - return a json back to the `frontend.js`
+app.post('/search', (req, res) => {
+  const keyword = req.body.keyword
+  const regex = new RegExp(keyword, 'i')
+  // make a regex patter out of the keyword
+  // put an 'i' option so it's case INSENSITIVE
+
+  Restaurant.find({
+    name: regex
+  })
+  .limit(10) // so we don't show all
+  .then(restaurants => res.send(restaurants))
+  .catch(err => res.send(err)) // in case we have an error
+})
+
 // pass the request for /register
 // to 'register_routes.js'
 // pass the request for /reviews
@@ -159,6 +191,7 @@ app.use('/restaurants', restaurant_routes)
 app.use('/admin', admin_register_routes)
 
 // AFTER CLASS 20 Oct
+// LOGIN FLOW FOR USER, similar to admin
 app.use('/login', login_routes)
 
 // UPDATE 20 October,
