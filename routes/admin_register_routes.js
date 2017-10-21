@@ -64,7 +64,13 @@ router.get('/login', (req, res) => {
 // - else, then redirect to login page
 //   - tell them that their login is incorrect
 router.post('/login', (req, res) => {
-  // return res.send(req.body)
+  // PITSTOP, take a look at view files `admins/login.handlebars`
+  // look at the name of the input fields
+
+  // that will help you to understand why we did
+  // app.use(bodyParser.urlencoded({
+  // extended: true
+  // }))
   const adminData = req.body.admin
 
   Admin.findOne({
@@ -83,15 +89,16 @@ router.post('/login', (req, res) => {
       // if you can find by the email
       // we compare the password
 
-      // pass the comparison flow to the model
-      // we want to run a method called `validate`
-      // this fn name, can be anything
-      // two arguments the given password
+      // PITSTOP: split right with `admin.js` files to compare
+      // what happened here
 
-      // PITSTOP: `validPassword` function here is from `adminSchema`
-      // check admin.js at models folder
+      // pass the comparison flow to the model
+      // we want to run a method called `validPassword`
+
+      // `validPassword` function here is from `adminSchema`
+
       admin.validPassword(adminData.password, (err, valid) => {
-        // comparison failed here, if err is not null
+        // comparison failed here, if `valid` is false
         if(! valid) {
           console.log('comparison failed')
           return res.redirect('/admin/login')

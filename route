@@ -2,26 +2,29 @@ OUR ROUTE PLANS
 
 20 Oct
 app.use('/')
-+ /
-+ /profile/:slug
+  GET /
+  GET /profile/:slug
+  // after 20 oct class
+  GET /search
+  POST /search
 
 app.use('/register')
-GET /
-POST /
+  GET /
+  POST /
 
 app.use('/reviews')
 GET /
-POST /
+  POST /
 
 app.use('/restaurants')
-GET /new
-GET /:slug
-GET /:id
-POST /
-POST /:id
-DELETE /:id
+  GET /new
+  GET /:slug
+  GET /:id
+  POST /
+  POST /:id
+  DELETE /:id
 
-// new routes
+// 20 Oct: New Routes
 app.use('/admins)
-GET /register
-POST /register
+  GET /register
+  POST /register

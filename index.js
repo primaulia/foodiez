@@ -16,6 +16,19 @@
   - creating `pre-save` hooks for `Restaurant` schema
     - so we can create routes `/restaurants/:slug`, making it more readable rather than using restaurant._id
     - in a case that the url is not providing a `slug`, fallback to `/restaurants/:id` route
+
+ 20 Oct
+ - refactoring routes
+  - take a look at the file `route`, to see our current route plans
+  - created 4 routes files as per route plans
+  - removed `model` files `require` from index.js, except `User` and `Restaurant`
+ - Register flow for `User`
+  - update `pre('save')` hooks, to allow the plain text password => hashed password
+ - Register and Login for `Admin`
+  - similar to `User` create `pre('save')` hooks for register purposes
+  - also added our first *INSTANCE METHOD* that helps us to compare login password
+    and hashed password
+
 */
 
 
@@ -49,6 +62,8 @@ const register_routes = require('./routes/register_routes')
 const review_routes = require('./routes/review_routes')
 const restaurant_routes = require('./routes/restaurant_routes')
 const admin_register_routes = require('./routes/admin_register_routes')
+// UPDATE AFTER 20 OCT
+const login_routes = require('./routes/login_routes')
 
 // initiating express, by calling express variable
 const app = express()
@@ -142,6 +157,9 @@ app.use('/register', register_routes)
 app.use('/reviews', review_routes)
 app.use('/restaurants', restaurant_routes)
 app.use('/admin', admin_register_routes)
+
+// AFTER CLASS 20 Oct
+app.use('/login', login_routes)
 
 // UPDATE 20 October,
 // remove all registration routes in index.js

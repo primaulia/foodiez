@@ -1,0 +1,17 @@
+{{!-- Update AFTER 20 Oct, new user LOGIN page --}}
+<h3>Login</h3>
+
+{{!-- if i go to /register, it will save new user instead --}}
+<form action="/login" method="post">
+  {{!-- no need name here, cos we're logging in --}}
+
+  <label for="email">Email</label>
+  {{!-- NOTICE on the attribute type below  --}}
+  <input type="email" name="user[email]" placeholder="e.g. domain@email.com">
+
+  <label for="password">Password</label>
+  {{!-- NOTICE on the attribute type below  --}}
+  <input type="password" name="user[password]" placeholder="ur password dumbass">
+
+  <button type="submit" name="button">Submit</button>
+</form>

@@ -4,7 +4,7 @@ const Schema = mongoose.Schema // constructor for all schema
 
 // UPDATE 20 Oct
 // requiring bcrypt
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt') // for login and register
 
 // setting the blueprint of User object
 const userSchema = new Schema({
@@ -28,7 +28,14 @@ userSchema.pre('save', function(next) {
   // Only hash the password if it has been modified (or is new)
   // if (!user.isModified('password')) return next();
 
-  //hash the password
+  // PITSTOP: This is rather different from the gitbook
+  // notice that I'm using an ASYNC method of `hash()` instead
+  // hash the password
+
+  // syntax:
+  // bcrypt
+  // .hash(<plainPassword>, <rounds>)
+  // .then(<the hash output>)
   bcrypt.hash(user.password, 10)
   .then(hash => { // the then method here is when we got the hash
     // UPDATE 20 OCT
@@ -38,6 +45,11 @@ userSchema.pre('save', function(next) {
     next() // next() is calling the save()
   })
 })
+
+// UPDATE after 20 Oct, create first instance method
+userSchema.methods.validPassword = function (plainPassword, callback) {
+  bcrypt.compare(plainPassword, this.password, callback)
+}
 
 // active the blueprint
 // registering the name of the database that we're connecting to

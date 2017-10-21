@@ -1,9 +1,7 @@
 {{!-- Update 20 Oct, new admin LOGIN page --}}
 <h3>Admin Login</h3>
 
-{{!-- FORM TO CREATE NEW RESTAURANT, NOTICE THERE'S NO ID THERE --}}
-
-{{!-- if i go to /register, it will save new user instead --}}
+{{!-- if i go to /admin/register, it will save new admin instead --}}
 <form action="/admin/login" method="post">
   {{!-- no need name here, cos we're logging in --}}
 
@@ -14,6 +12,6 @@
   <label for="password">Password</label>
   {{!-- NOTICE on the attribute type below  --}}
   <input type="password" name="admin[password]" placeholder="ur password dumbass">
-  
+
   <button type="submit" name="button">Submit</button>
 </form>
