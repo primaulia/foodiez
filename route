@@ -7,6 +7,8 @@ app.use('/')
   // after 20 oct class
   GET /search
   POST /search
+  GET /login
+  POST /login
 
 app.use('/register')
   GET /
