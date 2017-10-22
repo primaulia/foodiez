@@ -172,7 +172,9 @@ app.post('/search', (req, res) => {
   Restaurant.find({
     name: regex
   })
-  .limit(10) // so we don't show all
+  .limit(9)
+  // so we don't show all
+  // update 22 oct, show 9 for aesthetics
   .then(restaurants => res.send(restaurants))
   .catch(err => res.send(err)) // in case we have an error
 })

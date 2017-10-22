@@ -42,18 +42,51 @@ $(function () {
   // - clear the search results area
   // - map them to array of 10 `<li>` object
   // - append them to the `<ul id="searchResults">`
+
+
+  // PSEUDOCODE 22 Oct - to follow closely the homepage
+  // - limit to 9 array search results instead
+  // - map them to array of 10 `<div class="col-4">` obj
+  // - append them to a new `<div class="row">`
+
+  // - NOTICE: for easy checking, split this screen side by side with `home.handlebars`
+
   function showResults(data) {
     let allRestaurants = data.map(restaurant => {
-      var $newLi = $('<li>')
+      const $newCol = $('<div class="col-4">')
+      const $newCard = $('<div class="card">')
+      const $newCardBody = $('<div class="card-body">')
+      const $newCardTitle = $('<h4 class="card-title">')
+      const $newCardText = $('<p class="card-text">')
+      const $newCardLinks = $(`<form
+        class="form-inline"
+        action="/restaurants/${ restaurant.id }?_method=DELETE"
+        method="post"
+      >`)
 
-      // UPDATE AFTER 20 Oct
-      // add link to the list, so you can click on the restaurant name
-      var $newA = $('<a>')
-      $newA.attr('href', `/restaurants/${restaurant._id}`)
-      $newA.text(restaurant.name)
+      $newCardTitle.text(restaurant.name)
+      $newCardText.html(
+        `
+          ${restaurant.address.building} ${restaurant.address.street}<br>
+          ${restaurant.borough }, NYC ${restaurant.address.zipcode }
+        `
+      )
 
-      $newLi.append($newA)
-      return $newLi
+      $newCardBody.append($newCardTitle, $newCardText)
+
+      // TODO: add the form section too
+
+      $newCard.append($newCardBody)
+      $newCol.append($newCard)
+      return $newCol
+
+      // UPDATE 22 Oct, we dont use the structure below anymore
+
+      // // UPDATE AFTER 20 Oct
+      // // add link to the list, so you can click on the restaurant name
+      // var $newA = $('<a>')
+      // $newA.attr('href', `/restaurants/${restaurant._id}`)
+      // $newA.text(restaurant.name)
     })
 
     $searchResults.html('')
