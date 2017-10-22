@@ -1,0 +1,8 @@
+/*UPDATE 22 OCT, custom stylesheet that bootrap layout doesn't cover */
+nav {
+  margin-bottom: 30px;
+}
+
+.card {
+  margin-bottom: 15px;
+}

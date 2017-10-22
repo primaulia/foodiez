@@ -3,36 +3,86 @@
   <head>
     <meta charset="utf-8">
     <title>Foodiez</title>
+    {{!-- UPDATE 22 Oct --}}
+    <!-- For responsive layout, http://getbootstrap.com/docs/4.0/getting-started/introduction/#responsive-meta-tag -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
   </head>
   <body>
-    {{!-- Remember that anything written here, will be displayed for all pages --}}
-    <h1><a href="/">Foodiez</a></h1>
+    {{!-- UPDATE 22 Oct, layout base from BOOTSTRAP 4 --}}
+      {{!-- UPDATES BEFORE CLASS 20 OCT --}}
+      {{!--
+        UPDATES 22 OCT:
+        NAVBAR http://getbootstrap.com/docs/4.0/components/navbar/
 
-    {{!-- UPDATES BEFORE CLASS 20 OCT --}}
-    <nav>
-      <ul>
-        <li><a href="/reviews">Reviews</a></li>
-        <li><a href="/restaurants/new">New Restaurant</a></li>
+        How to split navbar:
+        https://stackoverflow.com/questions/41513463/bootstrap-4-align-navbar-item-to-the-right
+      --}}
+      <nav
+        class="navbar navbar-expand-lg navbar-light justify-content-between"
+        style="background-color: #e3f2fd;"
+      >
+        {{!-- Remember that anything written here, will be displayed for all pages --}}
+        <a class="navbar-brand mb-0 h1" href="/">Foodiez</a>
 
-        {{!-- TODO: Show this <li> if user has logged in --}}
-        <li>Profile</li>
+        {{!-- Navbar hamburger icon for responsive reasons --}}
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-        {{!-- TODO: Show this <li> if user has NOT logged in --}}
-        {{!-- UPDATE 20 Oct, adding link to register page  --}}
-        <li><a href="/register">Register</a></li>
-        {{!-- UPDATE AFTER 20 Oct, adding link to login page for `user` --}}
-        <li><a href="/login">Login</a></li>
+        {{!-- The actual navbar items --}}
+        <div class="collapse navbar-collapse " id="navbarNav">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/reviews">Reviews</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/restaurants/new">New Restaurant</a>
+            </li>
 
-        {{!-- TODO: Show this <li> if admin has NOT logged in  --}}
-        <li><a href="/admin/register">Admin Register</a></li>
-        <li><a href="/admin/login">Admin Login</a></li>
+            {{!-- TODO: Show this <li class="nav-item">
+             if user has logged in --}}
+            <li class="nav-item">
+              <a class="nav-link" href="#">Profile</a>
+            </li>
 
-        {{!-- UPDATE AFTER 20 OCT --}}
-        <li><a href="/search">Search Restaurant</a></li>
-      </ul>
-    </nav>
+            {{!-- UPDATE AFTER 20 OCT --}}
+            <li class="nav-item">
+              <a class="nav-link" href="/search">Search Restaurant</a>
+            </li>
+          </ul>
 
-    {{{ body }}}
+          <ul class="navbar-nav">
+            {{!-- TODO: Show this <li class="nav-item">
+            if user has NOT logged in --}}
+            {{!-- UPDATE 20 Oct, adding link to register page  --}}
+            <li class="nav-item">
+              <a class="nav-link" href="/register">Register</a>
+            </li>
+            {{!-- UPDATE AFTER 20 Oct, adding link to login page for `user` --}}
+            <li class="nav-item">
+              <a class="nav-link" href="/login">Login</a>
+            </li>
+
+            {{!-- TODO: Show this <li class="nav-item">
+             if admin has NOT logged in  --}}
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/register">Admin Register</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/login">Admin Login</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="container-fluid">
+        {{{ body }}}
+      </div>
 
     {{!-- UPDATE 20 Oct, embedding `jQuery` and `frontend.js` --}}
     {{!-- NOTICE THE LINK TO `frontend.js` --}}

@@ -1,29 +1,69 @@
-<h2>Homepage</h2>
+{{!-- Removed title cos it's obvious we're on the homepage --}}
+{{!-- <h2>Homepage</h2> --}}
 
 {{!-- READ --}}
 {{!-- I want to list all my restaurants here how? --}}
 
-{{!-- Loop --}}
-<ul>
+{{!--
+  Update 22 Oct,
+  Bootstrap grid system, http://getbootstrap.com/docs/4.0/layout/grid/
+--}}
+
+<div class="row">
+  {{!-- Loop --}}
   {{#each restaurants as |resto|}}
-  <li>
+  <div class="col-4">
+    {{!--
+      Update 22 Oct,
+      Bootstrap card system,http://getbootstrap.com/docs/4.0/components/card/
+    --}}
+
     {{!-- since we have the resto object in a loop, i can get each resto id too  --}}
     {{!-- once we created this link, we need to prepare the route for that --}}
-    {{ resto.name }}
-    - <a href="/restaurants/{{ resto.id }}">View</a>
-    ||
-    {{!-- since we have the routes for delete now, we can also put the link at the homepage  --}}
-    {{!--
-      but we need to change the parameter here to resto, cos there's no
-      `restaurant` here
-    --}}
-    <form action="/restaurants/{{ resto.id }}?_method=DELETE" method="post">
-      <button type="submit" name="button">Delete</button>
-      {{!-- don't need input fields here, cos we're not updating anything --}}
-    </form>
-  </li>
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">{{ resto.name }}</h4>
+        <p class="card-text">
+          {{!-- 22 Oct: show resto address here instead of just link  --}}
+          {{ resto.address.building }} {{ resto.address.street }}<br>
+          {{ resto.borough}}, NYC {{ resto.address.zipcode}}
+        </p>
+
+
+        {{!-- since we have the routes for delete now, we can also put the link at the homepage  --}}
+        {{!--
+        but we need to change the parameter here to resto, cos there's no
+        `restaurant` here
+        --}}
+
+        {{!--
+          22 Oct: Inline form
+          http://getbootstrap.com/docs/4.0/components/forms/#inline-forms
+        --}}
+        <form
+          class="form-inline"
+          action="/restaurants/{{ resto.id }}?_method=DELETE"
+          method="post"
+        >
+          <a href="/restaurants/{{ resto.id }}" class="btn btn-primary">View</a>
+          {{!--
+            nbsp = non breaking space
+            so there's a slight space between the buttons
+          --}}
+          &nbsp;
+          <button class="btn btn-danger" type="submit" name="button">Delete</button>
+          {{!-- don't need input fields here, cos we're not updating anything --}}
+        </form>
+      </div>
+    </div>
+  </div>
   {{/each}}
-</ul>
+
+  {{!-- Update 22 October, remove the li grid system to use grid system instead  --}}
+  {{!-- <ul>
+  </ul> --}}
+</div>
+
 
 {{!-- Link to new restaurant form page, NOTICE THE PATH --}}
 <h3><a href="/restaurants/new">New Restaurant</a></h3>

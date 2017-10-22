@@ -118,7 +118,7 @@ mongoose.connect(dbUrl, {
 // HOMEPAGE
 app.get('/', (req, res) => {
   // the return of then
-  Restaurant.find().limit(10)
+  Restaurant.find().limit(9)
   .then(restaurants => {
     // at this point we got our data so we can render our page
 
