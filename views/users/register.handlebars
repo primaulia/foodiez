@@ -1,17 +1,18 @@
 <h3>Registration</h3>
 
 {{!-- FORM TO CREATE NEW RESTAURANT, NOTICE THERE'S NO ID THERE --}}
+{{!-- AFTER 23 OCT, adjust the input name to follow the login flow --}}
 <form action="/register" method="post">
   <label for="name">Name</label>
-  <input type="text" name="name" placeholder="e.g. John Doe">
+  <input type="text" name="user[name]" placeholder="e.g. John Doe">
 
   <label for="email">Email</label>
   {{!-- NOTICE on the attribute type below  --}}
-  <input type="email" name="email" placeholder="e.g. domain@email.com">
+  <input type="email" name="user[email]" placeholder="e.g. domain@email.com">
 
   <label for="password">Password</label>
   {{!-- NOTICE on the attribute type below  --}}
-  <input type="password" name="password" placeholder="min. 8 characters">
+  <input type="password" name="user[password]" placeholder="min. 8 characters">
 
   <button type="submit" name="button">Submit</button>
 </form>

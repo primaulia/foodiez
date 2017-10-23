@@ -44,8 +44,16 @@
   23 Oct
    - create .env file to store our server environment data
    - installed a new package `dotenv`, to allow our server to read the `.env` file
+   - install express-session, in order for us to be able to create session data in our server
    - installed `connect-mongo`, to make sure the sessions created are stored into the db
    - installed `passport` and `passport-local` for controlling our register / login flow
+   - initial use of `app.locals` to create local data for ALL routes
+
+  After 23 Oct
+   - created `helpers/index.js` file, that helped us to run functions can be run on different js files
+   - use functions exported from `helpers/index.js` file to check if `session` is authenticated or not on route level
+   - apply it on session sensitive routes
+     - if user `hasLoggedOut()`, you can't go to
 */
 
 // 23 Oct, BAE = require('dotenv')
@@ -78,6 +86,10 @@ const methodOverride = require('method-override') // for accessing PUT / DELETE
 const session = require('express-session') // to create session and cookies
 const MongoStore = require('connect-mongo')(session) // to store session into db
 const passport = require('./config/ppConfig') // to register passport strategies
+
+// UPDATE AFTER 23 Oct
+// ES6 METHOD TO DESTRUCTURE OBJECT: DESTRUCTURING - https://zellwk.com/blog/es6/
+const { hasLoggedOut, isLoggedIn } = require('./helpers')
 
 // requiring actual file now
 // PITSTOP, look at file inside routes folder now
@@ -200,7 +212,7 @@ app.get('/', (req, res) => {
 // get the slug
 // find user by the slug
 // render profile page with user details based on the slug
-app.get('/profile', (req, res) => {
+app.get('/profile', hasLoggedOut, (req, res) => {
   // UPDATE 23 OCT
 
   res.send(req.user)
@@ -225,7 +237,7 @@ app.get('/search', (req, res) => {
 })
 
 // NEW ROUTE - LOGOUT
-app.get('/logout', (req, res) => {
+app.get('/logout', hasLoggedOut, (req, res) => {
   req.logout()
   res.redirect('/')
 })
@@ -258,16 +270,17 @@ app.post('/search', (req, res) => {
 // to 'restaurant_routes.js'
 
 // NEW ROUTES - admin registration flow
-app.use('/register', register_routes)
 app.use('/reviews', review_routes)
 app.use('/restaurants', restaurant_routes)
 app.use('/admin', admin_register_routes)
+
+app.use('/register', isLoggedIn, register_routes)
 
 // AFTER CLASS 20 Oct
 // LOGIN FLOW FOR USER, similar to admin
 
 // UPDATE 23 OCT. THIS IS VERY IMPORTANT ROUTES NOW AFTER PASSPORT
-app.use('/login', login_routes)
+app.use('/login', isLoggedIn, login_routes)
 
 // UPDATE 20 October,
 // remove all registration routes in index.js

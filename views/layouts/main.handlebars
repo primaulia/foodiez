@@ -45,11 +45,10 @@
               <a class="nav-link" href="/restaurants/new">New Restaurant</a>
             </li>
 
-            {{!-- TODO: Show this <li class="nav-item">
-             if user has logged in --}}
-            <li class="nav-item">
+            {{!-- Remove this, cos it doesn't make sense to put this instead --}}
+            {{!-- <li class="nav-item">
               <a class="nav-link" href="/profile">Profile</a>
-            </li>
+            </li> --}}
 
             {{!-- UPDATE AFTER 20 OCT --}}
             <li class="nav-item">
@@ -58,6 +57,7 @@
           </ul>
 
           <ul class="navbar-nav">
+          {{!-- Split with index.js line 177, so you know what `user` is --}}
           {{#if user}}
             {{!-- if user has logged in  --}}
             <li class="nav-item">

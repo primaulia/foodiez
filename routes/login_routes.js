@@ -10,6 +10,9 @@
 // NOT admin.validPassword BUT user.validPassword
 // NOT redirect to '/' if login is successful BUT to '/profile/:slug'
 
+// 23 Oct
+// POST `/login` go to passport local strategy
+
 // require the model here
 const User = require('../models/user')
 const express = require('express')

@@ -7,6 +7,12 @@
 // for /register goes
 // be it POST, GET, or whatever
 
+// UPDATE 23 Oct
+// Same thing as we do here
+// we'll set up the session too via passport
+// hence we need to require `ppConfig.js` here again
+const passport = require('../config/ppConfig')
+
 // require the model here
 const User = require('../models/user')
 
@@ -33,7 +39,9 @@ router.get('/', (req, res) => {
 // - redirect to somewhere
 router.post('/', (req, res) => {
   // UPDATE BEFORE CLASS 20 Oct
-  var formData = req.body
+  // UPDATE AFTER CLASS 23 Oct -> change to `req.body.user` instead
+  var formData = req.body.user
+
   var newUser = new User({
     name: formData.name,
     // this name => slug => alex-min
@@ -47,7 +55,17 @@ router.post('/', (req, res) => {
   // // this is very similar to how mongoose.connect
   newUser.save() // save the object that was created
   .then(
-    user => res.redirect(`/profile/${user.slug}`),
+    user => {
+      // UPDATE 23 Oct
+      // we won't handle this ourselves
+      // we'll let passport handle this for us
+
+      // res.redirect(`/profile/${user.slug}`)
+
+      passport.authenticate('local', {
+        successRedirect: '/'
+      })(req, res);
+    },
     // success flow, redirect to profile page
     err => res.send(err) // error flow
   )
