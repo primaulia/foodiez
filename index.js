@@ -42,8 +42,10 @@
     - new public folder that hosts our `static` files (unit 1 files)
 
   23 Oct
-   - .env is environment file = process.env.QUOTEAPI
-   - installed a new package `dotenv`
+   - create .env file to store our server environment data
+   - installed a new package `dotenv`, to allow our server to read the `.env` file
+   - installed `connect-mongo`, to make sure the sessions created are stored into the db
+   - installed `passport` and `passport-local` for controlling our register / login flow
 */
 
 // 23 Oct, BAE = require('dotenv')
@@ -56,16 +58,9 @@ require('dotenv').config({ silent: true })
 // NOTICE: SPLIT SCREEN WITH `.env` file now
 // notice the key name
 
-// if(process.env.NODE_ENV === 'production') {
-//   const dbUrl = process.env.MONGODB_URI
-// } else {
-//   const dbUrl = 'mongodb://localhost/test'
-// }
-
 // 23 Oct. check if you're in Heroku or not
 const dbUrl =
 process.env.NODE_ENV === 'production' ? process.env.MONGODB_URI : 'mongodb://localhost/test'
-
 const port = process.env.PORT || 4000 // this is for our express server
 
 const quoteApiKey = process.env.QUOTEAPI
@@ -80,12 +75,12 @@ const bodyParser = require('body-parser') // for accessing POST request
 const methodOverride = require('method-override') // for accessing PUT / DELETE
 
 // UPDATE 23 Oct
-const session = require('express-session')
-const MongoStore = require('connect-mongo')(session)
-const passport = require('./config/ppConfig')
+const session = require('express-session') // to create session and cookies
+const MongoStore = require('connect-mongo')(session) // to store session into db
+const passport = require('./config/ppConfig') // to register passport strategies
 
 // requiring actual file now
-// PITSTOP, look at file inside models folder now
+// PITSTOP, look at file inside routes folder now
 
 // UPDATE 20 Oct
 // We're only loading models at the route files
@@ -100,7 +95,8 @@ const register_routes = require('./routes/register_routes')
 const review_routes = require('./routes/review_routes')
 const restaurant_routes = require('./routes/restaurant_routes')
 const admin_register_routes = require('./routes/admin_register_routes')
-// UPDATE AFTER 20 OCT
+
+// UPDATE AFTER 20 OCT, setup login routes for `user`
 const login_routes = require('./routes/login_routes')
 
 // initiating express, by calling express variable
@@ -148,7 +144,8 @@ app.use(session({
   store: new MongoStore({ mongooseConnection: mongoose.connection })
 }))
 
-// must be below your session configuration
+// OCT 23. must be below your session configuration
+// THIS IS WHERE PASSPORT GOT ACTIVATED
 app.use(passport.initialize())
 app.use(passport.session())
 
@@ -162,9 +159,21 @@ app.use(passport.session())
 // HOMEPAGE
 
 // UPDATE 23 OCT
-// this will set local data for ALL ROUTES
+// `app.locals` will set local data for ALL ROUTES
+
+// so we don't need to do:
+// res.render('/', {
+//  user: req.user
+// })
+// AND
+// res.render('/restraunts/new', {
+//  user: req.user
+// })
+
+// why we use. `app.use`, because we want to apply this local data for EVERY routes
+// `app.use` => GET, POST, PUT, DELETE request for ALL routes
 app.use((req, res, next) => {
-  app.locals.user = req.user
+  app.locals.user = req.user // we'll only `req.user` if we managed to log in
   next()
 })
 
@@ -256,6 +265,8 @@ app.use('/admin', admin_register_routes)
 
 // AFTER CLASS 20 Oct
 // LOGIN FLOW FOR USER, similar to admin
+
+// UPDATE 23 OCT. THIS IS VERY IMPORTANT ROUTES NOW AFTER PASSPORT
 app.use('/login', login_routes)
 
 // UPDATE 20 October,

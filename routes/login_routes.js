@@ -14,6 +14,8 @@
 const User = require('../models/user')
 const express = require('express')
 const router = express.Router()
+
+// need to require it again here, cos we need to use the passport strategies here
 const passport = require('../config/ppConfig')
 
 router.get('/', (req, res) => {
@@ -22,6 +24,9 @@ router.get('/', (req, res) => {
   // no local data, cos we don't need to pass anything
   res.render('users/login')
 })
+
+// UPDATE 23 OCT. We're not gonna handle our login flow ourselves now
+// we're gonna pass the logic to PASSPORT
 
 // USER LOGIN FLOW - same like ADMIN LOGIN FLOW
 // pseudocode
@@ -76,10 +81,10 @@ router.get('/', (req, res) => {
 //   )
 // })
 
-
+// SPLIT RIGHT to `ppConfig.js` for better flow understanding
 router.post('/', passport.authenticate('local', {
-  successRedirect: '/',
-  failureRedirect: '/failure'
+  successRedirect: '/', // the routes to go when it's successful
+  failureRedirect: '/login' // the routes to go when it's not
 }))
 
 module.exports = router

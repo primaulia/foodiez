@@ -1,5 +1,6 @@
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
+// need to require `User` model here, so we can access the db
 const User = require('../models/user')
 
 passport.serializeUser(function(user,done){
