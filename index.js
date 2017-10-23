@@ -46,7 +46,6 @@
    - installed a new package `dotenv`
 */
 
-
 // 23 Oct, BAE = require('dotenv')
 // this is too make sure you can access the `.env` file
 require('dotenv').config({ silent: true })
@@ -56,12 +55,20 @@ require('dotenv').config({ silent: true })
 
 // NOTICE: SPLIT SCREEN WITH `.env` file now
 // notice the key name
-const dbUrl = process.env.MONGODB_URI || 'mongodb://localhost/test'
+
+// if(process.env.NODE_ENV === 'production') {
+//   const dbUrl = process.env.MONGODB_URI
+// } else {
+//   const dbUrl = 'mongodb://localhost/test'
+// }
+
+const dbUrl =
+process.env.NODE_ENV === 'production' ? process.env.MONGODB_URI : 'mongodb://localhost/test'
+
 const port = process.env.PORT || 4000 // this is for our express server
 
 const quoteApiKey = process.env.QUOTEAPI
-console.log(`my api key is ${quoteApiKey}`);
-
+console.log(`my api key is ${quoteApiKey}`)
 
 // installing all modules
 const express = require('express')
@@ -70,6 +77,10 @@ const mongoose = require('mongoose') // for DB
 const exphbs = require('express-handlebars') // for Handlebars
 const bodyParser = require('body-parser') // for accessing POST request
 const methodOverride = require('method-override') // for accessing PUT / DELETE
+
+// UPDATE 23 Oct
+const session = require('express-session')
+const MongoStore = require('connect-mongo')(session)
 
 // requiring actual file now
 // PITSTOP, look at file inside models folder now
@@ -98,6 +109,7 @@ app.engine('handlebars', exphbs({ defaultLayout: 'main'}))
 app.set('view engine', 'handlebars')
 
 // MIDDLEWARES (explained on thursday)
+
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(function (req, res, next) {
   console.log('Method: ' + req.method + ' Path: ' + req.url)
@@ -123,6 +135,15 @@ mongoose.connect(dbUrl, {
   () => { console.log('db is connected') },
   (err) => { console.log(err) }
 )
+
+// OCT 23. activation of session after you connect to mongoose
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  // store this to our db too
+  store: new MongoStore({ mongooseConnection: mongoose.connection })
+}))
 
 // ROUTE sections
 // note: remember all the model file we created on models/restaurant.js,
