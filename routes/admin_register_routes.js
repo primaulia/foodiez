@@ -7,7 +7,7 @@
 const Admin = require('../models/admin')
 const express = require('express')
 const router = express.Router()
-const adminCode = '42admin'
+const adminCode = process.env.ADMIN_CODE
 
 router.get('/register', (req, res) => {
   res.render('admins/register')
@@ -18,10 +18,10 @@ router.post('/register', (req, res) => {
   // UPDATE 20 Oct
   // use the form data => check the `admin/register.handlebars`
   var adminData = req.body.admin
+  // res.send(adminData)
 
   // CHECK if adminData.code === adminCode
-  if (adminData.code !== adminCode)
-  {
+  if (adminData.code !== adminCode) {
     // if it's wrong flow, MUST call `return`
     console.log('test')
     // UPDATE AFTER 20 Oct, redirect back to `/admins/register`
@@ -96,13 +96,13 @@ router.post('/login', (req, res) => {
 
       admin.validPassword(adminData.password, (err, valid) => {
         // comparison failed here, if `valid` is false
-        if(! valid) {
+        if (!valid) {
           console.log('comparison failed')
           return res.redirect('/admin/login')
         }
 
         // if output is true, redirect to homepage
-        console.log('comparison success');
+        console.log('comparison success')
         res.redirect('/')
       })
     },
