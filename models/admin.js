@@ -27,6 +27,9 @@ adminSchema.pre('save', function (next) {
     console.log(`admin saved to db is ${admin}`);
     next()
   })
+  .catch(err => {
+    next(err)
+  })
 })
 
 // UPDATE 20 Oct, create first instance method
