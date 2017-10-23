@@ -40,12 +40,25 @@
     - embed jQuery to manipulate the dom
     - search in real time for currect restaurant in our db
     - new public folder that hosts our `static` files (unit 1 files)
+
+  23 Oct
+   - .env is environment file = process.env.QUOTEAPI
+   - installed a new package `dotenv`
 */
+
+
+// 23 Oct, BAE = require('dotenv')
+require('dotenv').config({ silent: true })
 
 // setting all global variables (note: why const? cos it won't change)
 // notice that port for mongodb is not really needed
 const dbUrl = process.env.MONGODB_URI || 'mongodb://localhost/test'
 const port = process.env.PORT || 4000 // this is for our express server
+
+const quoteApiKey = process.env.QUOTEAPI
+
+console.log(`my api key is ${quoteApiKey}`);
+
 
 // installing all modules
 const express = require('express')
