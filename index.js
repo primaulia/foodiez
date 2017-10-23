@@ -62,6 +62,7 @@ require('dotenv').config({ silent: true })
 //   const dbUrl = 'mongodb://localhost/test'
 // }
 
+// 23 Oct. check if you're in Heroku or not
 const dbUrl =
 process.env.NODE_ENV === 'production' ? process.env.MONGODB_URI : 'mongodb://localhost/test'
 
@@ -81,6 +82,7 @@ const methodOverride = require('method-override') // for accessing PUT / DELETE
 // UPDATE 23 Oct
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
+const passport = require('./config/ppConfig')
 
 // requiring actual file now
 // PITSTOP, look at file inside models folder now
@@ -137,6 +139,7 @@ mongoose.connect(dbUrl, {
 )
 
 // OCT 23. activation of session after you connect to mongoose
+// MUST BE AFTER YOUR `mongoose.connect`
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
@@ -144,6 +147,10 @@ app.use(session({
   // store this to our db too
   store: new MongoStore({ mongooseConnection: mongoose.connection })
 }))
+
+// must be below your session configuration
+app.use(passport.initialize())
+app.use(passport.session())
 
 // ROUTE sections
 // note: remember all the model file we created on models/restaurant.js,
@@ -153,6 +160,14 @@ app.use(session({
 // UPDATE 20 Oct
 // Refactoring routes
 // HOMEPAGE
+
+// UPDATE 23 OCT
+// this will set local data for ALL ROUTES
+app.use((req, res, next) => {
+  app.locals.user = req.user
+  next()
+})
+
 app.get('/', (req, res) => {
   // the return of then
   Restaurant.find().limit(9)
@@ -176,24 +191,34 @@ app.get('/', (req, res) => {
 // get the slug
 // find user by the slug
 // render profile page with user details based on the slug
-app.get('/profile/:slug', (req, res) => {
+app.get('/profile', (req, res) => {
+  // UPDATE 23 OCT
+
+  res.send(req.user)
+
   // res.send(`this is the profile page for ${req.params.slug}`)
   // findOne method is from mongoose. google it up
-  User.findOne({
-    slug: req.params.slug
-  })
-  .then((user) => {
-    // UPDATE BEFORE CLASS 20 Oct
-    // render a new page with the user data found from the db
-    res.render('users/show', {
-      user
-    })
-  }) // if i found the user
+  // User.findOne({
+  //   slug: req.params.slug
+  // })
+  // .then((user) => {
+  //   // UPDATE BEFORE CLASS 20 Oct
+  //   // render a new page with the user data found from the db
+  //   res.render('users/show', {
+  //     user
+  //   })
+  // }) // if i found the user
 })
 
 // NEW ROUTE - SEARCH - for realtime search of our restaurant db
 app.get('/search', (req, res) => {
   res.render('search')
+})
+
+// NEW ROUTE - LOGOUT
+app.get('/logout', (req, res) => {
+  req.logout()
+  res.redirect('/')
 })
 
 // PSEUDOCODE

@@ -48,7 +48,7 @@
             {{!-- TODO: Show this <li class="nav-item">
              if user has logged in --}}
             <li class="nav-item">
-              <a class="nav-link" href="#">Profile</a>
+              <a class="nav-link" href="/profile">Profile</a>
             </li>
 
             {{!-- UPDATE AFTER 20 OCT --}}
@@ -58,25 +58,36 @@
           </ul>
 
           <ul class="navbar-nav">
-            {{!-- TODO: Show this <li class="nav-item">
-            if user has NOT logged in --}}
-            {{!-- UPDATE 20 Oct, adding link to register page  --}}
+          {{#if user}}
+            {{!-- if user has logged in  --}}
             <li class="nav-item">
-              <a class="nav-link" href="/register">Register</a>
+              <a class="nav-link" href="/profile">{{ user.name }}</a>
             </li>
-            {{!-- UPDATE AFTER 20 Oct, adding link to login page for `user` --}}
             <li class="nav-item">
-              <a class="nav-link" href="/login">Login</a>
+              <a class="nav-link" href="/logout">Logout</a>
             </li>
+          {{else}}
+            {{!-- if user has not logged in --}}
+              {{!-- TODO: Show this <li class="nav-item">
+              if user has NOT logged in --}}
+              {{!-- UPDATE 20 Oct, adding link to register page  --}}
+              <li class="nav-item">
+                <a class="nav-link" href="/register">Register</a>
+              </li>
+              {{!-- UPDATE AFTER 20 Oct, adding link to login page for `user` --}}
+              <li class="nav-item">
+                <a class="nav-link" href="/login">Login</a>
+              </li>
 
-            {{!-- TODO: Show this <li class="nav-item">
-             if admin has NOT logged in  --}}
-            <li class="nav-item">
-              <a class="nav-link" href="/admin/register">Admin Register</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/admin/login">Admin Login</a>
-            </li>
+              {{!-- TODO: Show this <li class="nav-item">
+              if admin has NOT logged in  --}}
+              <li class="nav-item">
+                <a class="nav-link" href="/admin/register">Admin Register</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/admin/login">Admin Login</a>
+              </li>
+          {{/if}}
           </ul>
         </div>
       </nav>
