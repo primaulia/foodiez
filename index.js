@@ -48,15 +48,18 @@
 
 
 // 23 Oct, BAE = require('dotenv')
+// this is too make sure you can access the `.env` file
 require('dotenv').config({ silent: true })
 
 // setting all global variables (note: why const? cos it won't change)
 // notice that port for mongodb is not really needed
+
+// NOTICE: SPLIT SCREEN WITH `.env` file now
+// notice the key name
 const dbUrl = process.env.MONGODB_URI || 'mongodb://localhost/test'
 const port = process.env.PORT || 4000 // this is for our express server
 
 const quoteApiKey = process.env.QUOTEAPI
-
 console.log(`my api key is ${quoteApiKey}`);
 
 
