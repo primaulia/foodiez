@@ -28,7 +28,7 @@
         <a class="navbar-brand mb-0 h1" href="/">Foodiez</a>
 
         {{!-- Navbar hamburger icon for responsive reasons --}}
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -38,12 +38,23 @@
             <li class="nav-item active">
               <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
+            {{!-- UPDATE 24 Oct, hide reviews link, cos it's not relevant --}}
+            {{!-- <li class="nav-item">
               <a class="nav-link" href="/reviews">Reviews</a>
-            </li>
-            <li class="nav-item">
+            </li> --}}
+
+            {{!-- UPDATE 24 Oct. group dropdown links together --}}
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
+                Restaurant
+              </a>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="/restaurants/new">Create</a>
+                <a class="dropdown-item" href="/search">Search</a>
+              </div>
+            {{!-- </a>
               <a class="nav-link" href="/restaurants/new">New Restaurant</a>
-            </li>
+            </li> --}}
 
             {{!-- Remove this, cos it doesn't make sense to put this instead --}}
             {{!-- <li class="nav-item">
@@ -51,44 +62,58 @@
             </li> --}}
 
             {{!-- UPDATE AFTER 20 OCT --}}
-            <li class="nav-item">
+            {{!-- UPDATE AFTER 24 OCT, hide this cos it's grouped together under restaurant tab --}}
+            {{!-- <li class="nav-item">
               <a class="nav-link" href="/search">Search Restaurant</a>
-            </li>
+            </li> --}}
           </ul>
 
           <ul class="navbar-nav">
-          {{!-- Split with index.js line 177, so you know what `user` is --}}
-          {{#if user}}
-            {{!-- if user has logged in  --}}
-            <li class="nav-item">
-              <a class="nav-link" href="/profile">{{ user.name }}</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/logout">Logout</a>
-            </li>
-          {{else}}
-            {{!-- if user has not logged in --}}
-              {{!-- TODO: Show this <li class="nav-item">
-              if user has NOT logged in --}}
-              {{!-- UPDATE 20 Oct, adding link to register page  --}}
+            {{#if user}}
+            {{!-- Split with index.js line 177, so you know what `user` is --}}
+              {{!-- if user has logged in  --}}
               <li class="nav-item">
-                <a class="nav-link" href="/register">Register</a>
+                <a class="nav-link" href="/profile">{{ user.name }}</a>
               </li>
-              {{!-- UPDATE AFTER 20 Oct, adding link to login page for `user` --}}
               <li class="nav-item">
-                <a class="nav-link" href="/login">Login</a>
+                <a class="nav-link" href="/logout">Logout</a>
               </li>
+            {{else}}
+              {{!-- if user has not logged in --}}
+                {{!-- TODO: Show this <li class="nav-item">
+                if user has NOT logged in --}}
+                {{!-- UPDATE 20 Oct, adding link to register page  --}}
+                {{!-- <li class="nav-item">
+                  <a class="nav-link" href="/register">Register</a>
+                </li> --}}
+                {{!-- UPDATE AFTER 20 Oct, adding link to login page for `user` --}}
 
-              {{!-- TODO: Show this <li class="nav-item">
-              if admin has NOT logged in  --}}
-              <li class="nav-item">
-                <a class="nav-link" href="/admin/register">Admin Register</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/admin/login">Admin Login</a>
-              </li>
-          {{/if}}
+                {{!-- Update after 24 Oct, login can happen on the navbar  --}}
+                {{!-- <li class="nav-item">
+                  <a class="nav-link" href="/login">Login</a>
+                </li> --}}
+
+                {{!--
+                  TODO: Show this <li class="nav-item">
+                  if admin has NOT logged in
+
+                  Hide the admin links for easier understanding
+                --}}
+                {{!-- <li class="nav-item">
+                  <a class="nav-link" href="/admin/register">Admin Register</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/admin/login">Admin Login</a>
+                </li> --}}
+              {{!-- <form action="/login" class="form-inline" method="post">
+                <input class="form-control mr-sm-2" type="text" name="user[name]" placeholder="e.g. domain@email.com">
+                <input class="form-control mr-sm-2" type="password"  name="user[password]" placeholder="Enter password">
+                <button class="btn btn-outline-dark mr-sm-2" type="submit">Login</button>
+                <a href="/register" class="btn btn-outline-dark my-2 mr-sm-0">Register</a>
+              </form> --}}
+            {{/if}}
           </ul>
+
         </div>
       </nav>
       <div class="container-fluid">
@@ -103,6 +128,11 @@
     {{!-- UPDATE 20 Oct, embedding `jQuery` and `frontend.js` --}}
     {{!-- NOTICE THE LINK TO `frontend.js` --}}
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" charset="utf-8"></script>
+
+    {{!-- UPDATE 24 Oct, add in bootstrap js for aesthetics  --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" ></script>
+
     <script src="/assets/js/frontend.js" charset="utf-8"></script>
   </body>
 </html>

@@ -1,8 +1,14 @@
-{{!-- Update AFTER 20 Oct, new user LOGIN page --}}
-<h3>Login</h3>
+{{!-- Updates 24 Oct, adjust form structure like boostrap 4 --}}
+{{!-- <h3>Login</h3> --}}
 
 {{!-- if i go to /register, it will save new user instead --}}
 <form action="/login" method="post">
+  <div class="form-group">
+    <label for="user[email]">Email address</label>
+    <input type="email" class="form-control" id="user[email]" placeholder="e.g. domain@email.com">
+  </div>
+
+  
   {{!-- no need name here, cos we're logging in --}}
 
   <label for="email">Email</label>

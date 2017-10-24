@@ -186,6 +186,7 @@ app.use(passport.session())
 // `app.use` => GET, POST, PUT, DELETE request for ALL routes
 app.use((req, res, next) => {
   app.locals.user = req.user // we'll only `req.user` if we managed to log in
+  // return res.send(req.user)
   next()
 })
 
