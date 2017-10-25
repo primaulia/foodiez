@@ -10,6 +10,35 @@
 // - also expects error just in case
 
 $(function () {
+  const $deleteForm = $('.deleteForm')
+
+  $deleteForm.on('submit', function (e) {
+    e.preventDefault()
+
+    var form = $(this)
+    var formData = form.serializeArray()
+    var restoId = formData[0].value
+    var json = JSON.stringify({
+      restoId
+    })
+
+    console.log(`delete this resto ${restoId}`)
+    console.log(json)
+
+    fetch('/deleterestaurant', {
+      method: 'DELETE',
+      body: json,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(res => res.json())
+    .then(json => {
+      console.log('manipulate the dom now')
+      form.parents('.col-4').remove()
+    })
+  })
+
   const $searchInput = $('#searchInput')
   const $searchResults = $('#searchResults')
 
@@ -27,7 +56,7 @@ $(function () {
       method: 'POST',
       body: json,
       headers: {
-        "Content-Type" : "application/json"
+        'Content-Type': 'application/json'
       }
     })
     .then(response => response.json()) // convert the json file into js object
@@ -43,7 +72,6 @@ $(function () {
   // - map them to array of 10 `<li>` object
   // - append them to the `<ul id="searchResults">`
 
-
   // PSEUDOCODE 22 Oct - to follow closely the homepage
   // - limit to 9 array search results instead
   // - map them to array of 10 `<div class="col-4">` obj
@@ -51,7 +79,7 @@ $(function () {
 
   // - NOTICE: for easy checking, split this screen side by side with `home.handlebars`
 
-  function showResults(data) {
+  function showResults (data) {
     let allRestaurants = data.map(restaurant => {
       const $newCol = $('<div class="col-4">')
       const $newCard = $('<div class="card">')
@@ -60,7 +88,7 @@ $(function () {
       const $newCardText = $('<p class="card-text">')
       const $newCardLinks = $(`<form
         class="form-inline"
-        action="/restaurants/${ restaurant.id }?_method=DELETE"
+        action="/restaurants/${restaurant.id}?_method=DELETE"
         method="post"
       >`)
 
@@ -68,7 +96,7 @@ $(function () {
       $newCardText.html(
         `
           ${restaurant.address.building} ${restaurant.address.street}<br>
-          ${restaurant.borough }, NYC ${restaurant.address.zipcode }
+          ${restaurant.borough}, NYC ${restaurant.address.zipcode}
         `
       )
 

@@ -185,9 +185,23 @@ app.use(passport.session())
 // why we use. `app.use`, because we want to apply this local data for EVERY routes
 // `app.use` => GET, POST, PUT, DELETE request for ALL routes
 app.use((req, res, next) => {
+  // app.locals.title = 'Prima'
   app.locals.user = req.user // we'll only `req.user` if we managed to log in
   // return res.send(req.user)
   next()
+})
+
+app.delete('/deleterestaurant', (req, res) => {
+  var restoId = req.body.restoId
+
+  Restaurant.findByIdAndRemove(restoId)
+  .then(() => {
+    res.send({message: 'SAKSES'})
+  })
+  // .catch()
+
+
+
 })
 
 app.get('/', (req, res) => {
@@ -197,7 +211,8 @@ app.get('/', (req, res) => {
     // at this point we got our data so we can render our page
 
     res.render('home', {
-      restaurants
+      restaurants,
+      // title: 'Prima'
       // remember object literal on es6, we don't need to type in pairs
       // if key and argument is the same name
       // i.e. restaurants: restaurants

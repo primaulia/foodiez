@@ -40,8 +40,23 @@
           22 Oct: Inline form
           http://getbootstrap.com/docs/4.0/components/forms/#inline-forms
         --}}
+
+        {{!--
+
+        25th oct
+        Make my delete button async
+        pseudo
+        - stop the form submission ( default event )
+        - get the data from the form
+        - send a DELETE request to the server, not thru form submission
+        - if the deletion is successful, SERVER return back a success message
+        - FRONT END will alert the browser that the restaurant has been deleted
+
+         --}}
+
+
         <form
-          class="form-inline"
+          class="form-inline deleteForm"
           action="/restaurants/{{ resto.id }}?_method=DELETE"
           method="post"
         >
@@ -53,6 +68,9 @@
           &nbsp;
           <button class="btn btn-danger" type="submit" name="button">Delete</button>
           {{!-- don't need input fields here, cos we're not updating anything --}}
+          <br>
+          <input type="hidden" name="restoId" value="{{resto.id}}">
+
         </form>
       </div>
     </div>
